@@ -34,7 +34,9 @@ cd /home
 curl https://nc.cloudistboese.de/index.php/s/teWBKk4xBeo6bXA/download > solr-8.11.1.tgz
 tar xzf solr-8.11.1.tgz
 bash solr-8.11.1/bin/install_solr_service.sh solr-8.11.1.tgz
+
 systemctl start solr
+
 su solr -c '/opt/solr-8.11.1/bin/solr create -c docspell'
 
 #Postgres Install
@@ -84,8 +86,8 @@ sed -i '357s|user = "pguser"|user = "docspell"|' /etc/docspell-restserver/docspe
 sed -i '358s|password = ""|password = "'$POSTGRES_PASSWORD'"|' /etc/docspell-restserver/docspell-server.conf
 
 sed -i '401s|url = "jdbc:h2://"${java.io.tmpdir}"/docspell-demo.db;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;AUTO_SERVER=TRUE"|url = "jdbc:postgresql://localhost:5432/docspelldb"|' /etc/docspell-restserver/docspell-server.conf
-sed -i '402s|user = "sa"/         user = "docspell"/' /etc/docspell-restserver/docspell-server.conf
-sed -i '403s|password = ""|password = "'$POSTGRES_PASSWORD'"|' /etc/docspell-restserver/docspell-server.conf
+sed -i '404s|user = "sa"|user = "docspell"|' /etc/docspell-restserver/docspell-server.conf
+sed -i '407s|password = ""|password = "'$POSTGRES_PASSWORD'"|' /etc/docspell-restserver/docspell-server.conf
 
 #enable Full Text Search (geht)
 sed -i '327s/    enabled = false/    enabled = true/' /etc/docspell-restserver/docspell-server.conf
@@ -114,6 +116,10 @@ curl https://raw.githubusercontent.com/andreklug/docspell-debian/main/nginx-defa
 sed -i 's/ssl_trusted_certificate/#ssl_trusted_certificate/' /etc/nginx/sites-enabled/default
 
 service nginx restart
+
+#Start Docspell
+service docspell-restserver start
+service docspell-joex start
 
 #Get Local IP
 IP=$(hostname -I | cut -d' ' -f1)
