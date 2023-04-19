@@ -1,4 +1,3 @@
-
 #Create Random Passwords
 
 POSTGRES_PASSWORD=$(openssl rand -base64 32)
@@ -82,11 +81,11 @@ mv dsc /usr/bin
 #Configure Docspell (restserver)
 sed -i '356s|url = "jdbc:postgresql://server:5432/db"|url = "jdbc:postgresql://localhost:5432/docspelldb"|' /etc/docspell-restserver/docspell-server.conf
 sed -i '357s|user = "pguser"|user = "docspell"|' /etc/docspell-restserver/docspell-server.conf
-sed -i '358s|password = ""|password = "$POSTGRES_PASSWORD"|' /etc/docspell-restserver/docspell-server.conf
+sed -i '358s|password = ""|password = "'$POSTGRES_PASSWORD'"|' /etc/docspell-restserver/docspell-server.conf
 
 sed -i '401s|url = "jdbc:h2://"${java.io.tmpdir}"/docspell-demo.db;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;AUTO_SERVER=TRUE"|url = "jdbc:postgresql://localhost:5432/docspelldb"|' /etc/docspell-restserver/docspell-server.conf
 sed -i '402s|user = "sa"/         user = "docspell"/' /etc/docspell-restserver/docspell-server.conf
-sed -i '403s|password = ""|password = "$POSTGRES_PASSWORD"|' /etc/docspell-restserver/docspell-server.conf
+sed -i '403s|password = ""|password = "'$POSTGRES_PASSWORD'"|' /etc/docspell-restserver/docspell-server.conf
 
 #enable Full Text Search (geht)
 sed -i '327s/    enabled = false/    enabled = true/' /etc/docspell-restserver/docspell-server.conf
@@ -95,7 +94,7 @@ sed -i '327s/    enabled = false/    enabled = true/' /etc/docspell-restserver/d
 
 sed -i '49s|url = "jdbc:h2://"${java.io.tmpdir}"/docspell-demo.db;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;AUTO_SERVER=TRUE"|url = "jdbc:postgresql://localhost:5432/docspelldb"|' /etc/docspell-joex/docspell-joex.conf
 sed -i '52s|user = "sa"|user = "docspell"|' /etc/docspell-joex/docspell-joex.conf
-sed -i '55s|password = ""|password = "$POSTGRES_PASSWORD"|' /etc/docspell-joex/docspell-joex.conf
+sed -i '55s|password = ""|password = "'$POSTGRES_PASSWORD'"|' /etc/docspell-joex/docspell-joex.conf
 
 #edit pool-size (geht)
 sed -i '99s/    pool-size = 1/    pool-size = 8/' /etc/docspell-joex/docspell-joex.conf
