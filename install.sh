@@ -31,7 +31,7 @@ systemctl enable unoconv.service
 
 # Install Solr
 cd /home
-curl https://nc.cloudistboese.de/index.php/s/teWBKk4xBeo6bXA/download > solr-8.11.1.tgz
+curl https://cloud.altmann.network/s/PzJcpLn4jGoojLm/download > solr-8.11.1.tgz
 tar xzf solr-8.11.1.tgz
 bash solr-8.11.1/bin/install_solr_service.sh solr-8.11.1.tgz
 
